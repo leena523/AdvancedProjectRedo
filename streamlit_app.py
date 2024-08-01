@@ -21,7 +21,7 @@ else:
 
     # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
-
+"""
     # Create a session state variable to store the chat messages. This ensures that the
     # messages persist across reruns.
     if "messages" not in st.session_state:
@@ -34,7 +34,7 @@ else:
 
     # Create a chat input field to allow the user to enter a message. This will display
     # automatically at the bottom of the page.
-    if prompt := st.chat_input("What is up?"):
+    if prompt := st.chat_input("Ask me!"):
 
         # Store and display the current prompt.
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -56,3 +56,40 @@ else:
         with st.chat_message("assistant"):
             response = st.write_stream(stream)
         st.session_state.messages.append({"role": "assistant", "content": response})
+"""
+
+import re
+
+# Define a dictionary to map words to emojis
+emoji_dict = {
+    "hello": "👋",
+    "world": "🌍",
+    "happy": "😊",
+    "sad": "😢",
+    "love": "❤️",
+    "cat": "🐱",
+    "dog": "🐶",
+    "car": "🚗",
+    "food": "🍔",
+    "star": "⭐"
+}
+
+def text_to_emoji(text):
+    # Split the text into words and replace each word with its emoji if available
+    words = re.findall(r'\b\w+\b', text.lower())
+    emoji_text = ' '.join(emoji_dict.get(word, word) for word in words)
+    return emoji_text
+
+def chatbot():
+    print("Hello! I can convert your text to emojis. Type 'exit' to end the chat.")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == 'exit':
+            print("Chatbot: Goodbye!")
+            break
+        emoji_response = text_to_emoji(user_input)
+        print(f"Chatbot: {emoji_response}")
+
+# Run the chatbot
+if __name__ == "__main__":
+    chatbot()
